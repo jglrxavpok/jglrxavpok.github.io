@@ -4,15 +4,17 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+![my logo](/assets/images/Avatar.png)
+{: .centering-container}
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+Hello! I am Xavier "jglrxavpok" Niochaut.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+My hobbies are mostly programming, video games, and programming video games.
+
+My current job is also programming video games. Sense a theme here?
 
 
-[jekyll-organization]: https://github.com/jekyll
+I have a passion for game engines and their inner workings, therefore you can expect most posts to be about this.
+
+You can find me on GitHub:
+[jglrxavpok](https://github.com/jglrxavpok)
