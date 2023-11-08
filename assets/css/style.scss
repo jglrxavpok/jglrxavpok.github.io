@@ -33,7 +33,15 @@ div.category-text {
 }
 
 .caption {
-    margin-top: -10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: -8px;
     font-size: small;
     font-style: italic;
+}
+
+.small-text {
+    font-size: x-small;
+    display: inline;
 }

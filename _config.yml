@@ -28,7 +28,7 @@ github_username:  jglrxavpok
 permalink: /:year/:month/:day/:title.html
 
 # Build settings
-remote_theme: pages-themes/merlot@v0.2.0
+theme: jekyll-theme-merlot
 plugins:
   - jekyll-feed
   - jekyll-remote-theme
