@@ -22,6 +22,10 @@ layout: base
       })
     </script>
 
+  {% if page.image %}
+    <meta property="og:image" content="{{ page.image }}">
+  {% endif %}
+
 {% seo %}
 
 {% include head-custom.html %}
