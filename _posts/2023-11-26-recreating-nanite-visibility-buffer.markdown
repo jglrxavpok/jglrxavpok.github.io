@@ -382,4 +382,4 @@ That will be it for this article.
 I initially wanted to create the material pass at the same time as the visibility buffer pass, but in the state described in this post, there is no way to uniquely identify triangles once they are written inside the visibility buffer. Therefore, there is no way to know which instance the triangle belongs to, nor which are its UVs, normals, etc.
 
 
-So that will have to wait for the next post!
+[So that will have to wait for the next post!](/2023/12/07/recreating-nanite-cluster-rendering.html)
