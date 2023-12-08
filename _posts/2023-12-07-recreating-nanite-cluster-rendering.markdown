@@ -31,7 +31,7 @@ encode a **cluster** ID.
 A cluster is a small mesh which is made of connected/close triangles of the original mesh.
 
 Graphics API and GPU vendors have worked a lot recently on a technology which is very similar to clusters: mesh shading and **meshlets**.
-A *meshlet* is basically a tiny index buffer, which indexes vertices of an original vertex. The goal is to allow for multiple optimizations, from vertex order, to culling meshlets independently to reduce how many triangles one draws.
+A *meshlet* is basically a tiny index buffer, which indexes vertices of an original mesh. The goal is to allow for multiple optimizations, from vertex order, to culling meshlets independently to reduce how many triangles one draws.
 
 The difference I am going to use between *meshlets* and *clusters* is that a cluster owns its triangle data, while a meshlet references a pre-existing mesh.
 
