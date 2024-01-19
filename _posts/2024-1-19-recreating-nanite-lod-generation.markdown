@@ -3,6 +3,7 @@ layout: post
 title:  "Recreating Nanite: LOD generation"
 date:   2024-01-19 19:27:00 +0100
 categories: carrot game-engine rendering
+image: /assets/images/recreating-nanite/cluster-hierarchy/cover.png
 ---
 
 [![Standford bunny with high details, and low details, split in two by white line](/assets/images/recreating-nanite/cluster-hierarchy/cover.png)](/assets/images/recreating-nanite/cluster-hierarchy/cover.png)
