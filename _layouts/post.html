@@ -32,7 +32,6 @@ layout: base
   </head>
 
   <body>
-    <a id="forkme_banner" href="{{ site.github.repository_url }}">View on GitHub</a>
     <div class="shell">
 
       <header>
@@ -65,12 +64,14 @@ layout: base
 
       <section id="main_content">
         <h1>{{ page.title }}</h1>
-        {%- if page.categories.size > 0 -%}
-        <div class="category-text">Categories: </div>
-          {%- for category in page.categories -%}
-            <div class="category">{{ category }}</div>
-          {%- endfor -%}
-        {%- endif -%}
+        <div class="categories">
+          {%- if page.categories.size > 0 -%}
+          <div class="category-text">Categories: </div>
+            {%- for category in page.categories -%}
+              <div class="category">{{ category }}</div>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
         {{ content }}
       </section>
 
