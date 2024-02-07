@@ -2,7 +2,7 @@
 layout: post
 title:  "Recreating Nanite: The Plan"
 date:   2023-11-12 15:45:00 +0100
-categories: carrot game-engine rendering
+categories: carrot game-engine rendering recreating-nanite
 
 carousels:
     - images:
@@ -16,7 +16,7 @@ carousels:
 ---
 * Disclaimer: I am not an expert on virtualized geometry, and I've never implemented it before. So I might be wrong on how it works. Also I don't have access to Unreal source code.
 
-# Introduction
+## Introduction
 One of the Hot-New-Things in rendering is currently Virtualized Geometry (or [Nanite](https://advances.realtimerendering.com/s2021/Karis_Nanite_SIGGRAPH_Advances_2021_final.pdf)).
 I will use "Nanite" and "Virtualized Geometry" interchangeably in this post.
 
@@ -46,7 +46,7 @@ The version of Nanite explained in its introduction paper has a few disadvantage
 - No support for skinned meshes (I have some vague idea to support this case)
 - Memory hungry
 
-# The Plan
+## The Plan
 [My engine Carrot](/2023/11/08/carrot-engine.html) does not support LODs of any kind out-of-the-box in its current state. Therefore I want to add a LODing system, and Virtualized Geometry looks like it is fun to implement, so let's kill two birds with one stone.
 
 Currently I have nothing started for the implementation, but here's the steps I have in mind:
@@ -58,7 +58,7 @@ Currently I have nothing started for the implementation, but here's the steps I 
 5. [Software rasterization](#software-rasterization) (Maybe)
 5. [Going further](#going-further)
 
-## Visibility buffer
+### Visibility buffer
 Current, Carrot uses deferred rendering, with a GBuffer that looks like this:
 
 {% include carousel.html height="75" unit="%" duration="7" %}
@@ -96,7 +96,7 @@ for material in materials:
 
 The Visibility buffer is the first part I want to implement on my road to Virtualized Geometry inside Carrot. Once this part is done, it will be easier to feed clusters to render and let the rest of the pipeline take care of the rest.
 
-## Cluster generation
+### Cluster generation
 The goal is to go from a triangle list to a partition of triangles, in order to control the LOD of each cluster independently.
 From what I understand, clusters work the same way as meshlets.
 
@@ -111,7 +111,7 @@ Once I can split a mesh into meshlets, I want to attempt to convert a mesh and r
 
 Note: for *now*, I do **not** plan on using mesh shaders but they may arrive later.
 
-## LODs generation
+### LODs generation
 Once the initial mesh has been split into clusters, the goal is to create a hierarchy of new clusters, which represent different LODs.
 According to the Nanite presentation, the process is:
 1. Group adjacent clusters by groups of ~4
@@ -128,7 +128,7 @@ At the end of this step, I should have a graph of clusters, where the root is th
 Hierarchy of clusters. Each node is a cluster for a given LOD. Some LODs are shared between clusters to avoid locked edges. LOD 0 is the least detailed in this diagram.
 {: .caption }
 
-## LODs selection
+### LODs selection
 Once you have a hierarchy of clusters, you can "easily" find which one to draw based on the position of the clusters relative to the camera.
 This is what Nanite calls the "cut".
 
@@ -147,15 +147,15 @@ This way, you select the least detailed LOD that is visually identical to the or
 
 The Nanite paper goes into details to do this properly with multithreading and on the GPU, but that's a problem for far-future me.
 
-## Software rasterization
+### Software rasterization
 I am not going to go into details for now, software rasterization is well documented and Nanite seems to implement a basic version from what I understood.
 
-## Going further
+### Going further
 There are many aspects I have not mentionned in this post, but virtualized geometry also enables to do fine-grained occlusion culling.
 
 I also did not talk about how I expect the choice between regular meshes and virtualized geometry to be done inside my engine (if I don't replace all opaque rendering with Virtualized Geometry).
 
-# Conclusion
+## Conclusion
 There are many parts to implement before reaching a point where a Nanite-like system is available in my engine.
 
 I am going to start soon, first with the Visibility buffer.

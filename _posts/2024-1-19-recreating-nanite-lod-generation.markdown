@@ -2,7 +2,7 @@
 layout: post
 title:  "Recreating Nanite: LOD generation"
 date:   2024-01-19 19:27:00 +0100
-categories: carrot game-engine rendering
+categories: carrot game-engine rendering recreating-nanite
 image: /assets/images/recreating-nanite/cluster-hierarchy/cover.png
 ---
 
@@ -32,7 +32,7 @@ Summary:
 - [Next steps](#next-steps)
 
 
-# Introduction
+## Introduction
 I thought LOD generation would take longer than all previously discussed features from this article series. I was right, but it took even longer than expected.
 
 Interestingly, an article about this exact topic was relayed by [Jendrik Illner on his website](https://www.jendrikillner.com/), a few weeks ago:
@@ -52,7 +52,7 @@ I will focus mostly on a few points to keep in mind when implementing your own v
 Small note:
 You may notice during this article that meshes are drawn to the final image, contrary to the previous articles. This is because I worked on the material pass before LOD generation in my implementation, but the material pass will be the subject of a future article.
 
-# Encoding LODs inside glTF
+## Encoding LODs inside glTF
 Before trying to create LODs, I need to first make sure the engine can load them properly.
 
 I decided not to overcomplicate things, meshlets will just have a "LOD" field which are kept until rendering.
@@ -129,8 +129,8 @@ Loading the new format
 The only difference here is that the accessor spans all bytes of meshlet data, instead of counting the number of meshlets. This is because I store the meshlet as an array of unsigned bytes, 
 which from the point of view of glTF means that I have `N x sizeof(Meshlet)` elements (where N is the number of meshlets).
 
-# LOD generation
-## First approach
+## LOD generation
+### First approach
 
 This first approach only works for connected meshes (ie a mesh after welding / merging vertices by distance). It will be refined in the next sections to work on faceted meshes.
 
@@ -145,7 +145,7 @@ After the [previous article](/2023/12/07/recreating-nanite-cluster-rendering.htm
 
 Therefore I need to ~~draw the rest of the owl~~ implement steps 2 through 5.
 
-### Grouping clusters
+#### Grouping clusters
 Let's assume LOD N is already done, and let's examine how to group clusters for LOD N+1:
 
 [![Damaged Helmet, upper part of visor is surrounded by blue lines to show limits of a cluster group. Left side is LOD 0, right side is LOD 1](/assets/images/recreating-nanite/cluster-hierarchy/step-2.png)](/assets/images/recreating-nanite/cluster-hierarchy/step-2.png)
@@ -378,7 +378,7 @@ return groups;
 
 Whew, that's a lot of code! But the rest of the first approach is rather straight forward and short in comparison.
 
-### Simplifying cluster groups
+#### Simplifying cluster groups
 Meshlets are now grouped, I need to merge and simplify them.
 
 For each group, I start by creating an index buffer which will be the concatenation of index buffers of its meshlets:
@@ -429,7 +429,7 @@ I need to use `meshopt_SimplifyLockBorder` to ensure the border of the group are
 
 After this step, `simplifiedIndexBuffer` should contain an index buffer representing the result of simplifying the merged meshlets! However, if simplification cannot procede without increasing the error above `targetError`, the simplified index buffer might be bigger than 50% of the original index buffer. This is a problem I will encounter and try to workaround in a later part of this article.
 
-### Splitting cluster groups
+#### Splitting cluster groups
 Thankfully, as noted in the Nanite presentation, splitting cluster groups and generating the initial meshlets (at LOD 0) are exactly the same problem!
 
 This means I can just reuse the code from the [previous article on cluster rendering](/2023/12/07/recreating-nanite-cluster-rendering.html#generating-clusters), and continue from there!
@@ -503,7 +503,7 @@ And that's it!
 
 I now have all the buildings blocks to generate a LOD hierarchy, let's combine everything!
 
-### Merging everything together
+#### Merging everything together
 
 Let's go step-by-step:
 
@@ -602,7 +602,7 @@ Here's the result on the Standford bunny (with maxLOD = 10):
 Standford bunny with different levels of simplification, each meshlet is represented by a different color.
 {: .caption }
 
-## Welding close enough vertices 1: the bruteforce approach
+### Welding close enough vertices 1: the bruteforce approach
 
 The implementation explained in the parts before this one works nicely for fully connected meshes, but it fails with faceted meshes:
 
@@ -741,7 +741,7 @@ const float maxUVDistance = tLod * 0.5f + (1-tLod) * 1.0f / 256.0f;
 - High detail LODs should merge vertices which are less than 1% apart (relative to the size of the object), and whose UVs are a maximum of 1 pixel apart (for a 256x256 texture).
 - Low detail LODs should merge vertices which are less than 10% apart (relative to the size of the object), and whose UVs are a maximum of half the texture apart.
 
-## Welding close enough vertices 2: k-d trees
+### Welding close enough vertices 2: k-d trees
 
 The major point to improve in the previous chapter of this article is performance: I need a way to merge vertices by distance, without iterating over each vertex.
 That is, for a given vertex, I need to find the neighboring vertices that are less than `maxDistance` units away, without having to look through all vertices.
@@ -775,7 +775,7 @@ Damaged Helmet LODs with maxDistance = 0.1 for the lowest LOD.
 
 Not perfect, but that's much better!
 
-# Current bugs & tuning
+## Current bugs & tuning
 You probably noticed in the previous image that the DamagedHelmet has a lot of holes in its lowest detailed LODs.
 My current method for welding vertices seems to struggle a lot with faceted meshes (like the DamagedHelmet). This is due to the difference in UVs being too great for the welding process to merge some faces of the borders of the visor.
 
@@ -802,7 +802,7 @@ I will have to check whether ignoring the normal was a good idea or not.
 Finding thresholds that "look good" is a bit difficult with this current implementation. However, I believe I have found some reasonable values for now.
 One needs to remember that the lowest LOD are expected to be seen from far away, so trading visual fidelity for lower triangle counts can be worth it; as long as no one notices.
 
-# Next steps
+## Next steps
 So what is next for this series?
 1. Automatic LOD selection.
     Currently LODs are manually selected, but the next step is to select the proper LOD based on the screensize of the object.

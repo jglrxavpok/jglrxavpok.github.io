@@ -10,7 +10,7 @@ categories: carrot game-engine
 Peeler, Scene editor of Carrot (Click image to see original)
 {: .caption}
 
-# What?
+## What?
 ![Oldest screenshot of Carrot](/assets/images/CarrotEngineSplashScreen.png)
 {: .centering-container}
 Logo of the engine, made by a friend
@@ -32,26 +32,26 @@ Here's a quick list of features:
 \* some features might actually be a problem
 {: .small-text }
 
-# How?
-## Libraries
+## How?
+### Libraries
 - Vulkan: low level API. I use it because I want to learn about GPUs, and access raytracing APIs.
 - Mono for C# scripting support
 - [ImGui](https://github.com/ocornut/imgui) for debug UI. If you are reading a blog about a game engine, you have probably already heard about it.
 - [Tracy](https://github.com/wolfpld/tracy/) for profiling (it is awesome you should check it out!)
 
-## Tools
+### Tools
 - C++: language I use at work, and performant enough to handle whatever I want. 
     - Why not Rust? I don't really like the syntax and I like fast prototyping. Also graphics API bindings are always necessarily outdated compared to C/C++ interfaces.
 - CLion: C++ IDE made by JetBrains. I spent a lot of time programming in Java during high school and college, so I was already familiar with IDEA and its ecosystem.
 - [Live++](https://liveplusplus.tech/) for hot-reloading. I discovered its existence at work, and cannot live without it now.
 
-# Why?
+## Why?
 Why not?
 
 Carrot allows me to explore rendering & optimisation techniques that no other project could provide.
 Also it's fun, and I'm learning a lot while doing this engine.
 
-## If you want some history
+### If you want some history
 According to my Git history, I started working on this engine on 2020/11/21, almost three years ago already!
 
 At the time I had just finished playing through Pikmin 3 on Nintendo Switch with my roommate, and Pikmin 4 was still a vague rumour. I wanted more Pikmin. 

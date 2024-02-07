@@ -2,7 +2,7 @@
 layout: post
 title:  "Recreating Nanite: Cluster rendering"
 date:   2023-12-07 20:10:00 +0100
-categories: carrot game-engine rendering
+categories: carrot game-engine rendering recreating-nanite
 ---
 Matching commits: 
 1. [Meshlet support](https://github.com/jglrxavpok/Carrot/commit/4c100761c442593c66b647c938adfec22fda33e6)
@@ -21,7 +21,7 @@ Table of contents:
 - [What's next?](#whats-next)
 
 
-# Introduction
+## Introduction
 In the [previous article](/2023/11/26/recreating-nanite-visibility-buffer.html), we stopped after drawing triangles to the visibility buffer.
 However, after drawing the visibility buffer, we lost the ability to know which mesh a triangle is from.
 
@@ -35,7 +35,7 @@ A *meshlet* is basically a tiny index buffer, which indexes vertices of an origi
 
 The difference I am going to use between *meshlets* and *clusters* is that a cluster owns its triangle data, while a meshlet references a pre-existing mesh.
 
-# Generating clusters
+## Generating clusters
 To this end, I will present to you how to generate meshlets with [Meshoptimizer's mesh shading capabilities](https://github.com/zeux/meshoptimizer#mesh-shading).
 
 Meshlets have 4 properties and need 2 two backing storages.
@@ -143,8 +143,8 @@ Carrot::Async::parallelFor(meshletCount, [&](std::size_t index) {
 }, 32);
 ```
 
-# Adding a custom extension to glTF
-## Saving to glTF
+## Adding a custom extension to glTF
+### Saving to glTF
 Now we have meshlets, great! However, for performance reasons, we don't want to build them each time we load a model: we need a way to store them.
 Carrot uses the [glTF format](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html) as its primary format for models, and the format can be extended, so let's add an extension for meshlets!
 
@@ -181,7 +181,7 @@ Each primitive which has meshlets gets the extension:
 
 [You can see the code here](https://github.com/jglrxavpok/Carrot/blob/4c100761c442593c66b647c938adfec22fda33e6/asset_tools/fertilizer/gltf/GLTFWriter.cpp#L334-L404), but it is basically just filling buffers, nothing fancy.
 
-## Reading from glTF
+### Reading from glTF
 For each primitive, we will need to check whether the extension is present:
 
 ```cpp
@@ -244,14 +244,14 @@ static T readFromAccessor(std::size_t index, const tinygltf::Accessor& accessor,
 
 And that's it! Thanksfully, meshlets are easy to represent so they can get serialized to glTF without too much effort.
 
-# Preparing and rendering clusters
+## Preparing and rendering clusters
 Now that we can generate, store and read meshlets, the time has finally come to draw them onto the screen!
 
 In the [previous article](/2023/11/26/recreating-nanite-visibility-buffer.html), I used a regular mesh with a vertex buffer and an index buffer to render to the visibility buffer. To avoid binding vertex & index buffers for each cluster, we will instead provide a cluster ID to the vertex shader, and based on this clusterID and the current vertex index, the shader will be able to get the proper vertex, and write the data we want to the visibility buffer. Small note: I needed to support draw commands with no index buffer and no vertex buffer, you might encounter the same issue.
 
 However, we need to provide all this data to the GPU.
 
-## Structures
+### Structures
 The choice of structures I have made are these (expressed in GLSL):
 
 - The vertex format used by Carrot
@@ -300,7 +300,7 @@ layout(set = 0, binding = 0, scalar) buffer ClusterRef {
 };
 ```
 
-## Filling the structures
+### Filling the structures
 
 Having these structures is nice and all, but we need to fill them.
 When loading model that want to use cluster rendering (based on user input in my case), we list all its meshlets, and convert them into clusters. Reminder, I chose the difference to be:
@@ -319,7 +319,7 @@ When loading model that want to use cluster rendering (based on user input in my
 [Reading the code is easier to understand than reading that sentence.](https://github.com/jglrxavpok/Carrot/blob/4c100761c442593c66b647c938adfec22fda33e6/engine/engine/render/MeshletManager.cpp#L79-L87)
 5. [Before rendering, upload the `clusters` vector to the GPU.](https://github.com/jglrxavpok/Carrot/blob/4c100761c442593c66b647c938adfec22fda33e6/engine/engine/render/MeshletManager.cpp#L122-L124)
 
-## Accessing the structures inside shaders
+### Accessing the structures inside shaders
 Once the structures are filled and bound on the GPU, we just need a way to access the cluster ID, and we have everything required to draw the clusters.
 A few ways of doing this:
 - push constants
@@ -464,7 +464,7 @@ Extract from the fragment shader
 Final render! Each color spot corresponds to a different cluster: pixels are colored based on the cluster ID instead of the triangle index.
 {: .caption }
 
-# What's next?
+## What's next?
 We now have independent clusters. These clusters will allow to write data into the visibility buffer which will allow to fetch vertex information. 
 
 However, we still have to find a way to simplify these clusters and create a hierarchy of these clusters, in order to have a hierarchy of clusters with varying LoDs.

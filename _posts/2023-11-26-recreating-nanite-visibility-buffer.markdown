@@ -2,7 +2,7 @@
 layout: post
 title:  "Recreating Nanite: Visibility buffer"
 date:   2023-11-26 13:10:00 +0100
-categories: carrot game-engine rendering
+categories: carrot game-engine rendering recreating-nanite
 image: /assets/images/recreating-nanite/visibility-buffer/depth-fixed.gif
 ---
 
@@ -18,7 +18,7 @@ Table of contents:
 - [Depth testing](#depth-testing)
 - [That's it?](#thats-it)
 
-# Adding the visibility buffer passes
+## Adding the visibility buffer passes
 [Carrot](/2023/11/08/carrot-engine.html) has a render graph system for its rendering. There is a default render graph implemented inside `CarrotRenderingPipeline.cpp`, which already has gbuffer + lighting passes.
 
 I am adding multiple passes between the gbuffer and the lighting pass.
@@ -83,7 +83,7 @@ These passes do not modify the GBuffer, but are properly added to the global ren
 Render graphs debug view inside the engine. You can see the two visibility buffer passes being present in the graph. "gbuffer" is the regular rasterization of meshes to a GBuffer.
 {: .caption }
 
-# First test: drawing the Standford Bunny in the visibility buffer
+## First test: drawing the Standford Bunny in the visibility buffer
 To test whether the visibility buffer is filled correctly, I need to draw something into it. I have selected the classic Standford Bunny for this test.
 
 I also need a way to tell my engine whether a given mesh will be rendered via rasterization to the GBuffer directly, or whether I want to use the visibility buffer. To this end, I have added an option
@@ -95,7 +95,7 @@ Virtualized Geometry checkbox inside the editor. In the scene, there are two bun
 {: .caption }
 
 
-## Writing triangles to a U64Int image
+### Writing triangles to a U64Int image
 We first need to clear the storage image used for the visibility buffer, so inside the recording of commands for the `rasterize visibility buffer` pass:
 ```cpp
 // get the visibility buffer texture for this frame
@@ -194,7 +194,7 @@ struct Vertex {
 ```
 Here, `pos` is the only attribute we will need for writing to the visibility buffer.
 
-The vertex shader transforms the input vertices from worldspace to NDC coordinates, based on the camera. So nothing fancy:
+The vertex shader transforms the input vertices from mesh-space/local-space to NDC coordinates, based on the camera. So nothing fancy:
 ```cpp
 #include <includes/camera.glsl>
 // defines a cbo object which contains mat4 "view" and "jittedProjection" corresponding to the camera used for rendering
@@ -254,7 +254,7 @@ Fragment shader
 
 Until we encode the depth, we will use `gl_PrimitiveID` to write the current triangle index into the buffer.
 
-## Visualisation
+### Visualisation
 At this point, we have absolutely no way to know if the contents of the visibility buffer are correct. 
 The buffer is a U64 image, and we will need a custom pass to render a RGBA texture that will be more easily readable.
 
@@ -336,7 +336,7 @@ Depth testing is not working! 😱
 {: .caption }
 
 
-# Depth testing
+## Depth testing
 Disaster!
 
 By writing to the visibility buffer directly, we lost depth testing: depending on the order in which fragments are shaded, different triangles will appear in front.
@@ -376,7 +376,7 @@ Because `ndc.z` is already in the range 0 to 1 for values between the near and f
 Fixed depth testing!
 {: .caption }
 
-# That's it?
+## That's it?
 
 That will be it for this article.
 I initially wanted to create the material pass at the same time as the visibility buffer pass, but in the state described in this post, there is no way to uniquely identify triangles once they are written inside the visibility buffer. Therefore, there is no way to know which instance the triangle belongs to, nor which are its UVs, normals, etc.
