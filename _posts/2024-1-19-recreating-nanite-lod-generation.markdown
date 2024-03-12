@@ -751,6 +751,8 @@ This article is already long and I don't know enough about k-d trees to discuss 
 
 You can see the implementation [here](https://github.com/jglrxavpok/Carrot/commit/f26c5a36ca87408dbf6bd8d829a4e77503152941#diff-0ae13bf50f987db851b49f1c460e3b14a19d57a9e9e41b32161d682f0b052914), but it is not properly tested so there might be surprises hiding in this code.
 
+⚠️ **Update**: This implementation has a major flaw, [see the follow-up article](/2024/03/12/recreating-nanite-faster-lod-generation.html#fixing-quality).
+
 I advise to build a k-d tree per LOD, with the vertices of the previous LOD. Building a single k-d tree for the entire mesh has the following issues:
 - There is no guarantee vertices are stable between LODs: I think nothing prevents a vertex to simplify to a vertex that was not inside one of the previously simplified versions of the original mesh.
 - I wanted to merge vertices that are close enough in the current simplified mesh, and reduce vertex count. By restricting the k-d tree to vertices inside the previous LOD, I can ensure that at best I do simplify the mesh further, and at worst I don't modify the mesh.
@@ -812,3 +814,5 @@ So what is next for this series?
 
 3. Performance (will likely be a post all of its own).
     Building the LOD cluster can take a while with big models, and rendering these clusters also takes a while.
+
+ℹ️ [A new article](/2024/03/12/recreating-nanite-faster-lod-generation.html) is out! It explains everything I have done to improve on this article's LOD generation. You should check it out!
