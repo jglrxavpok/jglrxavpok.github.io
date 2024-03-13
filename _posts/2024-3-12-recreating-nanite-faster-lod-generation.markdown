@@ -106,6 +106,8 @@ Meshoptimizer simplification accounted for most of the runtime of my algorithm. 
 Meshoptimizer's simplification starts by iterating over all vertices of the vertex buffer, even if they are not used inside the index buffer.
 This means that we can reduce the time spent by meshoptimizer by creating a small vertex buffer just for simplification!
 
+> ℹ️ Meshoptimizer's author has plans to fix this issue in the future: [Meshlets Merging and Simplification discussion on GitHub](https://github.com/zeux/meshoptimizer/discussions/569#discussioncomment-8273737)
+
 Instead of providing the index buffer created from grouped meshlets to Meshoptimizer, the idea is:
 1. Remap vertices used by the grouped meshlets into a new vertex buffer
 2. Remap indices used by the grouped meshlets to point to the new vertex buffer
