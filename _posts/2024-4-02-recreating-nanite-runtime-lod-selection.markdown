@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Recreating Nanite: Runtime LOD selection"
-date:   2024-04-02 20:30:00 +0100
+date:   2024-04-02 20:30:00 +0200
 categories: carrot game-engine rendering recreating-nanite
 
 carousels:
