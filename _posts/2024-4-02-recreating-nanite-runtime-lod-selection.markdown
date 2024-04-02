@@ -334,15 +334,17 @@ Zoom into DamagedHelmet and not a standford bunny, which shows the amount of tri
 {: .caption :}
 
 If you want to go into recreating Nanite yourself too, you will want to have a few debug views!
+
 I personally have:
 1. Triangle (different color per triangle)
 2. Cluster (different color per cluster)
 3. LOD (LOD index used to render a given pixel)
 4. Projected screen error (result of clusterError computed inside `testLOD`) (error exaggerated by a factor of 10 for this screenshot)
 
+Debug views with numbers are done with this shader: [Smaller Numbers by P_Malin](https://www.shadertoy.com/view/4sBSWW/).
+
 {% include carousel.html height="75" unit="%" duration="7" %}
 {: .centering-container}
-
 
 Here's a similar zoom in than the previous GIF with the LOD view:
 
