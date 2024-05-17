@@ -1043,12 +1043,11 @@ pre {
     font-size: 0.8rem;
     overflow: auto;
     min-width: var(--content-container-main-width);
-    max-width: var(--content-container-main-width);
+    max-width: calc(100vw - 8rem);
     transition: 0.6s;
 }
 
 pre:hover {
-    max-width: calc(100vw - 8rem);
     box-shadow: 0px 0px 10px 0px rgba(22, 22, 29, 0.06);
 }
 

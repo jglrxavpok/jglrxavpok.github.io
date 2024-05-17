@@ -35,9 +35,9 @@ Then, at runtime, select the appropriate LOD for each cluster: Unreal calls it a
 
 Finally, for very tiny triangles (~1 pixel in area), Nanite rasterizes triangles itself via a compute shader, because GPUs tend to perform poorly with tiny triangles. For large or medium size triangles, Nanite simply uses regular hardware rasterization.
 
-[![Nanite overview](https://docs.unrealengine.com/5.0/Images/designing-visuals-rendering-and-graphics/rendering-optimization/nanite/level-viewport-show-nanite-visualizations-overview.webp)](https://docs.unrealengine.com/5.0/Images/designing-visuals-rendering-and-graphics/rendering-optimization/nanite/level-viewport-show-nanite-visualizations-overview.webp)
+[![Nanite overview](/assets/images/recreating-nanite/the-plan/level-viewport-show-nanite-visualizations-overview.png)](/assets/images/recreating-nanite/the-plan/level-viewport-show-nanite-visualizations-overview.png)
 {: .centering-container}
-From Unreal Engine's documentation: Nanite overview inside Unreal
+From [Unreal Engine's documentation](https://dev.epicgames.com/documentation/en-us/unreal-engine/nanite-virtualized-geometry-in-unreal-engine?application_version=5.0): Nanite overview inside Unreal
 {: .caption }
 
 The version of Nanite explained in its introduction paper has a few disadvantages:
@@ -77,9 +77,9 @@ The goal of the visibility buffer is to store, for each pixel:
 One trick Nanite uses is to store this information as a single UInt64, with the higher bits representing the depth. This allows to perform an [InterlockedMax (HLSL)](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/interlockedmax)/[atomicMax (GLSL)](https://registry.khronos.org/OpenGL-Refpages/es3.1/html/atomicMax.xhtml) when storing the value to do depth testing and avoid locks at the same time.
 This trick allows "depth testing" with compute shaders, but also unifies software and hardware rasterization: hardware rasterization can simply write to the visibility buffer via atomic writes, with no color or depth textures attached.
 
-[![Nanite triangle visualisation](https://docs.unrealengine.com/5.0/Images/designing-visuals-rendering-and-graphics/rendering-optimization/nanite/nanite-facetfaces-trianglevis.png)](https://docs.unrealengine.com/5.0/Images/designing-visuals-rendering-and-graphics/rendering-optimization/nanite/nanite-facetfaces-trianglevis.png)
+[![Nanite triangle visualisation](/assets/images/recreating-nanite/the-plan/nanite-facetfaces-trianglevis.png)](/assets/images/recreating-nanite/the-plan/nanite-facetfaces-trianglevis.png)
 {: .centering-container}
-From Unreal Engine's documentation: Nanite triangle visualisation
+From [Unreal Engine's documentation](https://dev.epicgames.com/documentation/en-us/unreal-engine/nanite-virtualized-geometry-in-unreal-engine?application_version=5.0): Nanite triangle visualisation
 {: .caption }
 
 Once this pass is done for all rendered meshes, an additional pass is performed: the Material pass.
