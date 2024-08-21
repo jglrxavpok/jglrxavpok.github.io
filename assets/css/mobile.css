@@ -40,3 +40,7 @@ header h1 {
   line-height: 1.8;
   padding: 14px 20px 0;
 }
+
+#floating-buttons {
+  display: none;
+}
