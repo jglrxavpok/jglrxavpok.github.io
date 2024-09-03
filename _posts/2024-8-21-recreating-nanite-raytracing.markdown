@@ -63,7 +63,7 @@ With regular rasterization and LODs, this is "trivial": select your LODs based o
 Acceleration structures, from Vulkan documentation: [Acceleration Structures](https://docs.vulkan.org/spec/latest/chapters/accelstructures.html#acceleration-structure-def)
 {: .caption :}
 
-With virtual geometry, except for LOD 0 which is the original model, there is such thing as "LOD 1,2,3": some parts of the model may not be simplifiable to that level.
+With virtual geometry, except for LOD 0 which is the original model, there is no such thing as "LOD 1,2,3": some parts of the model may not be simplifiable to that level.
 This means you cannot just rely on the position of the model and the camera to find a LOD index, and raytrace that. Furthermore, some parts of the model are rendering in LOD 0, while some other parts may be rendered with a low fidelity version.
 You need a method that can take into account the fact that your model is made up of lots of triangle clusters.
 
