@@ -3,7 +3,7 @@ layout: post
 title:  "We have GI at home"
 date:   2025-03-18 21:05:00 +0100
 categories: carrot game-engine rendering
-image: /assets/images/gi-at-home/cover.png
+image: /assets/images/gi-at-home/ray-lifetime.png
 ---
 
 [![View of the editor of the author's custom engine. The camera is placed inside the Sponza atrium, with a cube, a car and a helmet on the ground. The scene is illuminated from the top, with light bouncing off objects to indirectly illuminate the scene.](/assets/images/gi-at-home/cover.png)](/assets/images/gi-at-home/cover.png)
