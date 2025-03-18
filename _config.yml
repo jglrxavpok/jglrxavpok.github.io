@@ -23,7 +23,7 @@ email: jglrxavpok+blog@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Random thoughts and progress on my personal projects.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://jglrxavpok.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://blog.jglrxavpok.eu" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  jglrxavpok
 permalink: /:year/:month/:day/:title.html
 author: jglrxavpok
