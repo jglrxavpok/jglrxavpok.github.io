@@ -2,7 +2,7 @@
 layout: post
 title:  "Porting my engine from Windows/NVIDIA to Linux/AMD"
 date:   2025-04-26 21:25:00 +0200
-categories: carrot game-engine
+categories: carrot game-engine linux
 ---
 
 A few weeks ago, I decided to port my Windows-only engine to Linux, and also switch from an NVIDIA GPU to an AMD one. Here are a few interesting things I noted along the way.
